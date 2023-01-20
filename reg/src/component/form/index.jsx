@@ -53,7 +53,21 @@ export const Form = ()=>{
         if(!form.firstName){
             errors.firstName = "Name is Required *";
             valid = false;
+        }else {
+            let match = form.firstName.match(/[A-Z]([a-z]{1,})/);
+            if(match){
+            if(match[0] !== form.firstName){
+                errors.firstName = "Name is Required *";
+                valid = false;
+            }
+        }else{
+            errors.firstName = "Name is Required *";
+            valid = false;
+            }
+           
         }
+
+
         if(!form.lastName){
             errors.lastName = "Last Name is Required *";
             valid = false;
@@ -67,10 +81,16 @@ export const Form = ()=>{
             valid = false;
         }else {
             let match = form.email.match(/[A-z\d-_]+@[a-z]+.[a-z]{2,}/);
+            if(match){
             if(match[0] && match[0] !== form.email){
                 errors.email = "Email is Required *";
                 valid = false;
             }
+
+        }else{
+            errors.email = "Email is Required *";
+                valid = false;
+        }
            
         }   
 
@@ -78,17 +98,22 @@ export const Form = ()=>{
             errors.phoneNumber = "Phone Number is Required *";
             valid = false;
         }else {
-            let match = form.phoneNumber.match(/374(\d{9})/);
+            let match = form.phoneNumber.match(/374(\d{8})/);
+            if(match){
             if(match[0] && match[0] !== form.phoneNumber){
                 errors.phoneNumber = "Phone Number is Required *";
                 valid = false;
             }
            
+        }else{
+            errors.phoneNumber = "Phone Number is Required *";
+                valid = false;
         }
+    }
 
 
 
-        if(!form.age){
+        if(!form.age || form.age > 100 || form.age < 18){
             errors.age = "Age is Required *";
             valid = false;
         }
