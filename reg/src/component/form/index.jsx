@@ -1,22 +1,26 @@
 import { useState } from "react";
 import './style.scss'
+import { useContext } from "react";
+import {MyContext} from  "../../page/Home"
 export const Form = ()=>{
 
     const [inputs] = useState(['First Name','Last Name','Position','Email','Phone Number','Age'])
     const [inputsName] = useState(['firstName','lastName','position','email','phoneNumber','age'])
 
-    const [form] = useState({
-        firstName : '',
-        lastName : '',
-        position : '',
-        email : '',
-        phoneNumber : '',
-        age : '',
-        gender : '',
-        dateOfBirth : '',
-        file : '',
-        btn : false
-    });
+    const context = useContext(MyContext);
+
+    // const [form] = useState({
+    //     firstName : '',
+    //     lastName : '',
+    //     position : '',
+    //     email : '',
+    //     phoneNumber : '',
+    //     age : '',
+    //     gender : '',
+    //     dateOfBirth : '',
+    //     file : '',
+    //     btn : false
+    // });
 
     const [error,setError] = useState({
         firstName : "",
@@ -31,11 +35,14 @@ export const Form = ()=>{
     });
 
     const change = (e) =>{
-            form[e.target.name] = e.target.value;
+        context[e.target.name] = e.target.value;
         
     }
 
     const confirm  = () =>{
+        console.log('====================================');
+        console.log(context);
+        console.log('====================================');
         let valid = true
         const errors = {
             firstName : "",
@@ -50,13 +57,13 @@ export const Form = ()=>{
            
         };
 
-        if(!form.firstName){
+        if(!context.firstName){
             errors.firstName = "Name is Required *";
             valid = false;
         }else {
-            let match = form.firstName.match(/[A-Z]([a-z]{1,})/);
+            let match = context.firstName.match(/[A-Z]([a-z]{1,})/);
             if(match){
-            if(match[0] !== form.firstName){
+            if(match[0] !== context.firstName){
                 errors.firstName = "Name is Required *";
                 valid = false;
             }
@@ -68,21 +75,21 @@ export const Form = ()=>{
         }
 
 
-        if(!form.lastName){
+        if(!context.lastName){
             errors.lastName = "Last Name is Required *";
             valid = false;
         }
-        if(!form.position){
+        if(!context.position){
             errors.position = "Position is Required *";
             valid = false;
         }
-        if(!form.email){
+        if(!context.email){
             errors.email = "Email is Required *";
             valid = false;
         }else {
-            let match = form.email.match(/[A-z\d-_]+@[a-z]+.[a-z]{2,}/);
+            let match = context.email.match(/[A-z\d-_]+@[a-z]+.[a-z]{2,}/);
             if(match){
-            if(match[0] && match[0] !== form.email){
+            if(match[0] && match[0] !== context.email){
                 errors.email = "Email is Required *";
                 valid = false;
             }
@@ -94,13 +101,13 @@ export const Form = ()=>{
            
         }   
 
-        if(!form.phoneNumber){
+        if(!context.phoneNumber){
             errors.phoneNumber = "Phone Number is Required *";
             valid = false;
         }else {
-            let match = form.phoneNumber.match(/374(\d{8})/);
+            let match = context.phoneNumber.match(/374(\d{8})/);
             if(match){
-            if(match[0] && match[0] !== form.phoneNumber){
+            if(match[0] && match[0] !== context.phoneNumber){
                 errors.phoneNumber = "Phone Number is Required *";
                 valid = false;
             }
@@ -113,15 +120,15 @@ export const Form = ()=>{
 
 
 
-        if(!form.age || form.age > 100 || form.age < 18){
+        if(!context.age || context.age > 100 || context.age < 18){
             errors.age = "Age is Required *";
             valid = false;
         }
-        if(!form.gender){
+        if(!context.gender){
             errors.gender = "Gender is Required *";
             valid = false;
         }
-        if(!form.dateOfBirth){
+        if(!context.dateOfBirth){
             errors.dateOfBirth = "Date Of Birth is Required *";
             valid = false;
         }
