@@ -1,0 +1,57 @@
+.form{
+    display: grid;
+    grid-template-columns: repeat(2,auto);
+    row-gap: 25px;
+    &_section{
+        padding: 50px;
+        background:#8C8C8C;
+    }
+    &_inputs{
+        input{
+            width: 500px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+
+        }
+        p{
+            line-height: 40px;
+        }
+    }
+    &_radio{
+        p{
+            line-height: 40px;
+        }
+        label{
+            margin: 0 10px;
+        }
+        
+    }
+    .file{
+        grid-column-start: 2;
+        input{
+            text-align: center;
+            display: block;
+            margin: 0 auto;
+            }
+        }
+    &_btn{
+        cursor: pointer;
+        width: 500px;
+        grid-column-start: 2;
+        padding: 20px 0;
+        background: #449FDB;
+        border: none;
+        &:hover{
+            background:#0a456b;
+            color: aliceblue;
+        }
+        
+    }
+    .red{
+        color: red;
+    }
+    .redBorder{
+        border: 1px solid red;
+    }
+}
