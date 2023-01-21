@@ -15,10 +15,16 @@ export const Header = () =>{
         <div className="header_img">
         <img src={Nkar} alt="Nkar" />
         </div>
-            <div>
+        
+            {profile.btn ? <div>
             <h2>{profile.firstName} {profile.lastName}</h2>
             <p>{profile.position}</p>
+            </div>:
+            <div>
+            <h2>Name Surname</h2>
+            <p>Position</p>
             </div>
+            }
             
         </div>
     );

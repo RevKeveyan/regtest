@@ -40,9 +40,7 @@ export const Form = ()=>{
     }
 
     const confirm  = () =>{
-        console.log('====================================');
-        console.log(context);
-        console.log('====================================');
+  
         let valid = true
         const errors = {
             firstName : "",
@@ -133,6 +131,7 @@ export const Form = ()=>{
             valid = false;
         }
         
+        context.btn = true;
         setError(errors);
         return valid;
 
