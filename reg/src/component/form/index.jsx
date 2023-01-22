@@ -1,26 +1,14 @@
 import { useState } from "react";
-import './style.scss'
-import { useContext } from "react";
-import {MyContext} from  "../../page/Home"
+import './style.scss';
+import {useGlobalContext} from "../../context";
+
 export const Form = ()=>{
 
-    const [inputs] = useState(['First Name','Last Name','Position','Email','Phone Number','Age'])
-    const [inputsName] = useState(['firstName','lastName','position','email','phoneNumber','age'])
+    const [inputs] = useState(['First Name','Last Name','Position','Email','Phone Number','Age']);
+    const [inputsName] = useState(['firstName','lastName','position','email','phoneNumber','age']);
+    const {profile,setProfile} = useGlobalContext();
 
-    const context = useContext(MyContext);
-
-    // const [form] = useState({
-    //     firstName : '',
-    //     lastName : '',
-    //     position : '',
-    //     email : '',
-    //     phoneNumber : '',
-    //     age : '',
-    //     gender : '',
-    //     dateOfBirth : '',
-    //     file : '',
-    //     btn : false
-    // });
+    
 
     const [error,setError] = useState({
         firstName : "",
@@ -35,7 +23,7 @@ export const Form = ()=>{
     });
 
     const change = (e) =>{
-        context[e.target.name] = e.target.value;
+        setProfile({...profile, [e.target.name] : e.target.value});
         
     }
 
@@ -55,13 +43,13 @@ export const Form = ()=>{
            
         };
 
-        if(!context.firstName){
+        if(!profile.firstName){
             errors.firstName = "Name is Required *";
             valid = false;
         }else {
-            let match = context.firstName.match(/[A-Z]([a-z]{1,})/);
+            let match = profile.firstName.match(/[A-Z]([a-z]{1,})/);
             if(match){
-            if(match[0] !== context.firstName){
+            if(match[0] !== profile.firstName){
                 errors.firstName = "Name is Required *";
                 valid = false;
             }
@@ -73,21 +61,21 @@ export const Form = ()=>{
         }
 
 
-        if(!context.lastName){
+        if(!profile.lastName){
             errors.lastName = "Last Name is Required *";
             valid = false;
         }
-        if(!context.position){
+        if(!profile.position){
             errors.position = "Position is Required *";
             valid = false;
         }
-        if(!context.email){
+        if(!profile.email){
             errors.email = "Email is Required *";
             valid = false;
         }else {
-            let match = context.email.match(/[A-z\d-_]+@[a-z]+.[a-z]{2,}/);
+            let match = profile.email.match(/[A-z\d-_]+@[a-z]+.[a-z]{2,}/);
             if(match){
-            if(match[0] && match[0] !== context.email){
+            if(match[0] && match[0] !== profile.email){
                 errors.email = "Email is Required *";
                 valid = false;
             }
@@ -99,13 +87,13 @@ export const Form = ()=>{
            
         }   
 
-        if(!context.phoneNumber){
+        if(!profile.phoneNumber){
             errors.phoneNumber = "Phone Number is Required *";
             valid = false;
         }else {
-            let match = context.phoneNumber.match(/374(\d{8})/);
+            let match = profile.phoneNumber.match(/374(\d{8})/);
             if(match){
-            if(match[0] && match[0] !== context.phoneNumber){
+            if(match[0] && match[0] !== profile.phoneNumber){
                 errors.phoneNumber = "Phone Number is Required *";
                 valid = false;
             }
@@ -118,20 +106,23 @@ export const Form = ()=>{
 
 
 
-        if(!context.age || context.age > 100 || context.age < 18){
+        if(!profile.age || profile.age > 100 || profile.age < 18){
             errors.age = "Age is Required *";
             valid = false;
         }
-        if(!context.gender){
+        if(!profile.gender){
             errors.gender = "Gender is Required *";
             valid = false;
         }
-        if(!context.dateOfBirth){
+        if(!profile.dateOfBirth){
             errors.dateOfBirth = "Date Of Birth is Required *";
             valid = false;
         }
         
-        context.btn = true;
+
+        if(valid){
+            setProfile({...profile, btn : true})
+            }
         setError(errors);
         return valid;
 
