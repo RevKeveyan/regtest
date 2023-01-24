@@ -4,8 +4,27 @@ import {useGlobalContext} from "../../context";
 
 export const Form = ()=>{
 
-    const [inputs] = useState(['First Name','Last Name','Position','Email','Phone Number','Age']);
-    const [inputsName] = useState(['firstName','lastName','position','email','phoneNumber','age']);
+    const [inputs] = useState([
+        {   name: 'firstName',
+            label: 'First Name'
+        },
+        {   name: 'lastName',
+            label: 'Last Name'
+        },
+        {   name: 'position',
+            label: 'Position'
+        },
+        {   name: 'email',
+            label: 'Email'
+        },
+        {   name: 'phoneNumber',
+            label: 'Phone Number'
+        },
+        {   name: 'age',
+            label: 'Age'
+        },
+        
+])
     const {profile,setProfile} = useGlobalContext();
 
     
@@ -133,8 +152,8 @@ export const Form = ()=>{
         <div className="form">
             {inputs.map((elem,index)=>{
                 return <div key ={index} className="form_inputs">
-                <p className={error[inputsName[index]] ? "red" : null}>{error[inputsName[index]] ? error[inputsName[index]] : elem}</p>
-                <input className={error[inputsName[index]] ? "redBorder" : null} onChange={change} type={elem === 'Age' || elem === 'Phone Number' ? "number" : "text"} name={inputsName[index]} placeholder={elem}/>
+                <p className={error[elem.name] ? "red" : null}>{error[elem.name] ? error[elem.name] : elem.label}</p>
+                <input className={error[elem.name] ? "redBorder" : null} onChange={change} type={elem === 'Age' || elem === 'Phone Number' ? "number" : "text"} name={[elem.name]} placeholder={elem.label}/>
                 </div>                
             })}
             
