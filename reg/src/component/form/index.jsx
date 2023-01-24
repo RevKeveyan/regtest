@@ -26,7 +26,7 @@ export const Form = ()=>{
         
 ])
     const {profile,setProfile} = useGlobalContext();
-
+    const [selectFile, setSelectFile] = useState(null); 
     
 
     const [error,setError] = useState({
@@ -148,6 +148,11 @@ export const Form = ()=>{
 
     }
 
+    const selcted = (e) =>{
+        console.log(e.target.files[0])
+        setSelectFile(e.target.files[0])
+    }
+
     return (<div className="form_section">
         <div className="form">
             {inputs.map((elem,index)=>{
@@ -173,7 +178,7 @@ export const Form = ()=>{
 
             <div className="form_inputs file">
             <p >Profile Image</p>
-            <input type="file" name="file"/>
+            <input type="file" name="file" onChange={selcted} accept="image/*,.png,.jpg,.web," onChange={e => setProfile({...profile, file : e.target.files[0] })} />
             </div>
 
             <button onClick={confirm} className="form_btn">Save Changes</button>
