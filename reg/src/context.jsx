@@ -14,11 +14,12 @@ const AppProvider = ({children}) =>{
         gender : '',
         dateOfBirth : '',
         file : '',
-        btn : false
-    })
+    });
+    const [products,setProducts] = useState([]);
+    const [btn, setBtn] = useState(false)
 
     return <MyContext.Provider value={{
-        profile, setProfile
+        profile, setProfile,products,setProducts,btn,setBtn
         }}>
         {children}
     </MyContext.Provider>

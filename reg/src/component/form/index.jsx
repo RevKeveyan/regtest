@@ -1,8 +1,11 @@
 import { useState } from "react";
 import './style.scss';
 import {useGlobalContext} from "../../context";
+import {useNavigate} from "react-router";
+
 
 export const Form = ()=>{
+    const navigate = useNavigate()
 
     const [inputs] = useState([
         {   name: 'firstName',
@@ -25,9 +28,7 @@ export const Form = ()=>{
         },
         
 ])
-    const {profile,setProfile} = useGlobalContext();
-    const [selectFile, setSelectFile] = useState(null); 
-    
+    const {profile,setProfile, products, setProducts, setBtn} = useGlobalContext();
 
     const [error,setError] = useState({
         firstName : "",
@@ -46,8 +47,9 @@ export const Form = ()=>{
         
     }
 
-    const confirm  = () =>{
-  
+    const confirm  = (e) =>{
+        e.preventDefault();
+        
         let valid = true
         const errors = {
             firstName : "",
@@ -79,11 +81,23 @@ export const Form = ()=>{
            
         }
 
-
         if(!profile.lastName){
             errors.lastName = "Last Name is Required *";
             valid = false;
+        }else {
+            let match = profile.lastName.match(/[A-Z]([a-z]{1,})/);
+            if(match){
+            if(match[0] !== profile.lastName){
+                errors.lastName = "Last Name is Required *";
+                valid = false;
+            }
+        }else{
+            errors.lastName ="Last Name is Required *";
+            valid = false;
+            }
+           
         }
+        
         if(!profile.position){
             errors.position = "Position is Required *";
             valid = false;
@@ -112,16 +126,16 @@ export const Form = ()=>{
         }else {
             let match = profile.phoneNumber.match(/374(\d{8})/);
             if(match){
-            if(match[0] && match[0] !== profile.phoneNumber){
-                errors.phoneNumber = "Phone Number is Required *";
-                valid = false;
-            }
+                if(match[0] && match[0] !== profile.phoneNumber){
+                    errors.phoneNumber = "Phone Number is Required *";
+                    valid = false;
+                }
            
-        }else{
-            errors.phoneNumber = "Phone Number is Required *";
-                valid = false;
+            }else{
+                errors.phoneNumber = "Phone Number is Required *";
+                    valid = false;
+            }
         }
-    }
 
 
 
@@ -137,24 +151,52 @@ export const Form = ()=>{
             errors.dateOfBirth = "Date Of Birth is Required *";
             valid = false;
         }
-        
+        if(!profile.file){
+            errors.file = "Please choose file *";
+            valid = false;
+        }
 
         if(valid){
-            setProfile({...profile, btn : true})
+            setBtn(true)
+            addProd();
+            navigate("./products")
+            
             }
+
         setError(errors);
+       
         return valid;
 
 
     }
 
-    const selcted = (e) =>{
-        console.log(e.target.files[0])
-        setSelectFile(e.target.files[0])
-    }
+const addProd = ()=>{
+       setProducts([...products, profile]);
+       setProfile({
+        firstName : '',
+        lastName : '',
+        position : '',
+        email : '',
+        phoneNumber : '',
+        age : '',
+        gender : '',
+        dateOfBirth : '',
+        file : '',
+        btn : false
+    });
+}
 
+const changeFile = (e)=>{
+    const fr = new FileReader()
+        fr.readAsDataURL(e.target.files[0])
+        fr.onload = function(event) {
+            setProfile({...profile, file : event.target.result })
+      };
+      localStorage.setItem('newProd', JSON.stringify(products))
+
+}
     return (<div className="form_section">
-        <div className="form">
+        <form className="form"  >
             {inputs.map((elem,index)=>{
                 return <div key ={index} className="form_inputs">
                 <p className={error[elem.name] ? "red" : null}>{error[elem.name] ? error[elem.name] : elem.label}</p>
@@ -177,14 +219,14 @@ export const Form = ()=>{
             </div>
 
             <div className="form_inputs file">
-            <p >Profile Image</p>
-            <input type="file" name="file" onChange={selcted} accept="image/*,.png,.jpg,.web," onChange={e => setProfile({...profile, file : e.target.files[0] })} />
+            <p className={error.file ? "red" : null}>{error.file ? error.file : 'Choose file'}</p>
+            <input type="file" name="file"  accept="image/*,.png,.jpg,.web," onChange={changeFile} />
             </div>
 
-            <button onClick={confirm} className="form_btn">Save Changes</button>
+            <button type="submit" onClick={confirm} className="form_btn">Save Changes</button>
 
             
-        </div>
+        </form>
         
         </div>
     );
