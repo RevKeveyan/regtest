@@ -1,16 +1,18 @@
 import {useGlobalContext} from "../../context.jsx";
+import { useState } from "react";
 import Nkar from '../../assets/n.jpg'
 import "./style.scss"
-export const Products = ()=>{
-    const {products,setProducts} = useGlobalContext();
-    localStorage.setItem('newProd', JSON.stringify(products))
+export const Products = () =>{
 
-    const productsArr = JSON.parse(localStorage.getItem('newProd'));
-   
+    const {products} = useGlobalContext();
+    
+   if( products.length > 0) localStorage.setItem('newProd', JSON.stringify(products))
 
+    const [productsArr] = useState(JSON.parse(localStorage.getItem('newProd')));
+    
 return <div className="cards">
    
-    { productsArr.length !== 0 ? productsArr.map((elem,index)=>{
+    { productsArr && productsArr.length !== 0 ? productsArr.map((elem,index)=>{
         return ( <div className="card" key ={index}>
                     <div className="card__img">
                     <img src={elem.file ? elem.file: Nkar} alt={elem.name + ' ' + elem.lastName} />
@@ -28,7 +30,6 @@ return <div className="cards">
             </div>
             );
     }): <h2 className="nothing">Nothing in here</h2>  }
-   { console.log(productsArr)}
 </div>
 
 }

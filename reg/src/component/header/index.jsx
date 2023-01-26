@@ -10,8 +10,6 @@ export const Header = () =>{
         <div className="header_img">
         {file && btn? <img src={file} alt="Nkar"/>:<img src={Nkar} alt="Nkar"/>}
         </div>
-
-            
             {btn ?
             <div><h2>{firstName} {lastName}</h2>
             <p>{position}</p></div> :
