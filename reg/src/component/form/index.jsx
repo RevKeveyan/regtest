@@ -2,7 +2,7 @@ import { useState } from "react";
 import './style.scss';
 import {useGlobalContext} from "../../context";
 import {useNavigate} from "react-router";
-
+import { PostUsers } from "../../Platform/api";
 
 export const Form = ()=>{
     const navigate = useNavigate()
@@ -70,15 +70,14 @@ export const Form = ()=>{
         }else {
             let match = profile.firstName.match(/[A-Z]([a-z]{1,})/);
             if(match){
-            if(match[0] !== profile.firstName){
-                errors.firstName = "Name is Required *";
-                valid = false;
+                if(match[0] !== profile.firstName){
+                    errors.firstName = "Name is Required *";
+                    valid = false;
             }
         }else{
             errors.firstName = "Name is Required *";
             valid = false;
             }
-           
         }
 
         if(!profile.lastName){
@@ -87,15 +86,14 @@ export const Form = ()=>{
         }else {
             let match = profile.lastName.match(/[A-Z]([a-z]{1,})/);
             if(match){
-            if(match[0] !== profile.lastName){
-                errors.lastName = "Last Name is Required *";
-                valid = false;
-            }
+                if(match[0] !== profile.lastName){
+                    errors.lastName = "Last Name is Required *";
+                    valid = false;
+                }
         }else{
             errors.lastName ="Last Name is Required *";
             valid = false;
             }
-           
         }
         
         if(!profile.position){
@@ -155,36 +153,62 @@ export const Form = ()=>{
             errors.file = "Please choose file *";
             valid = false;
         }
-
-        if(valid){
-            setBtn(true)
-            addProd();
-            navigate("./products")
+        
+        if(true){
+            setProducts([...products, profile])
+            Users()
+            // localStorage.setItem('newProd', JSON.stringify(products));
             
-            }
+            setProfile({
+                firstName : '',
+                lastName : '',
+                position : '',
+                email : '',
+                phoneNumber : '',
+                age : '',
+                gender : '',
+                dateOfBirth : '',
+                file : '',
+                btn : false
+            });
+            setBtn(true)
+            navigate("/products")
 
+        }   
         setError(errors);
-       
-        return valid;
-
 
     }
+    
+    const Users = async ()=>{
+        const result = await PostUsers(profile)
+        if(result){
+            // console.log("resulr:" ,result.data)
+            setProducts([...products, result.data]);
+            // localStorage.setItem("id",result.data._id)
+        }else{
+            console.log("Error")
+        }
+    }
 
-const addProd = ()=>{
-       setProducts([...products, profile]);
-       setProfile({
-        firstName : '',
-        lastName : '',
-        position : '',
-        email : '',
-        phoneNumber : '',
-        age : '',
-        gender : '',
-        dateOfBirth : '',
-        file : '',
-        btn : false
-    });
-}
+// const addProd = ()=>{
+//     confirm()
+//     if(confirm()){
+//        setProducts([...products, profile]);
+//        setProfile({
+//         firstName : '',
+//         lastName : '',
+//         position : '',
+//         email : '',
+//         phoneNumber : '',
+//         age : '',
+//         gender : '',
+//         dateOfBirth : '',
+//         file : '',
+//         btn : false
+//     });
+//     localStorage.setItem('newProd', products)
+// }
+// }
 
 const changeFile = (e)=>{
     const fr = new FileReader()
@@ -192,7 +216,7 @@ const changeFile = (e)=>{
         fr.onload = function(event) {
             setProfile({...profile, file : event.target.result })
       };
-      localStorage.setItem('newProd', JSON.stringify(products))
+    //   localStorage.setItem('newProd', JSON.stringify(products))
 
 }
     return (<div className="form_section">

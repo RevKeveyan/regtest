@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-
+import Nkar from './assets/n.jpg';
 
 const MyContext = createContext();
 
@@ -16,10 +16,11 @@ const AppProvider = ({children}) =>{
         file : '',
     });
     const [products, setProducts] = useState([]);
-
     const [btn, setBtn] = useState(false);
     return (<MyContext.Provider value={{
-        profile, setProfile,products,setProducts,btn,setBtn,
+        profile, setProfile, 
+        products, setProducts,
+        btn, setBtn,
         }}>
         {children}
     </MyContext.Provider>

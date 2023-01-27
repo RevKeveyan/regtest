@@ -1,21 +1,40 @@
 import Nkar from '../../assets/n.jpg'
 import './style.scss'
+
 import {useGlobalContext} from "../../context.jsx";
+import { useEffect, useState } from 'react';
+import { GetUsers } from '../../Platform/api';
 
 export const Header = () =>{
-    const {btn, products} = useGlobalContext()
-    const {firstName, position, lastName,file} = products[products.length - 1]?products[products.length - 1] : ['nothing']
+
+    const {btn, products,setProducts} = useGlobalContext()
+    const [user, setUser] = useState([products.pop()])
+
+    useEffect(()=>{
+       Get()
+    },[])
+ 
+    const Get = async () =>{
+        const result = await GetUsers()
+        if(result){
+            setUser(result.data.pop())
+        }
+    }
+   
+    
     return (
         <div className="header">
         <div className="header_img">
-        {file && btn? <img src={file} alt="Nkar"/>:<img src={Nkar} alt="Nkar"/>}
+        {user && btn? <img src={user.file} alt="Nkar"/>:<img src={Nkar} alt="Nkar"/>}
         </div>
-            {btn ?
-            <div><h2>{firstName} {lastName}</h2>
-            <p>{position}</p></div> :
+            {btn && user ? 
+            <div><h2>{user.firstName} {user.lastName}</h2>
+            <p>{user.position}</p></div> :
             <div><h2>Name Surname</h2>
             <p>Position</p></div>
             }            
         </div>
     );
 }
+
+

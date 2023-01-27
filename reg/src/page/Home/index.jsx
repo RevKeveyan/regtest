@@ -10,7 +10,7 @@ export const Home = () =>{
 
     
     return <div className="wrapper">
-    <div>
+    <div className="left_menu">
         <Menu/>
     </div>
         

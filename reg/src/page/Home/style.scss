@@ -3,7 +3,10 @@
     margin: 0;
     padding: 0;
 }
-
+.left_menu{
+    background: #E7E7E7;
+    padding-top: 80px;
+}
 .wrapper{
     display: grid;
     grid-template-columns: 500px auto;

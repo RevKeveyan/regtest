@@ -1,18 +1,41 @@
 import {useGlobalContext} from "../../context.jsx";
 import { useState } from "react";
+import { GetUsers } from "../../Platform/api/index.js";
+import { useEffect } from "react";
 import Nkar from '../../assets/n.jpg'
 import "./style.scss"
+import { Menu } from "../../component/menu/index.jsx";
 export const Products = () =>{
 
-    const {products} = useGlobalContext();
+    const {products, setProducts,setUser, user} = useGlobalContext();
     
-   if( products.length > 0) localStorage.setItem('newProd', JSON.stringify(products))
 
-    const [productsArr] = useState(JSON.parse(localStorage.getItem('newProd')));
+    useEffect(()=>{
+       
+        // console.log('products:', products);
+        // if(products.length === 0 && JSON.parse(localStorage.getItem('newProd')))
+        // setProducts([...products, ...JSON.parse(localStorage.getItem('newProd'))])
+        Get()
+    },[setProducts])
+
+
+    const Get = async ()=>{
+        // console.log(id)
+        const result = await GetUsers()
+        if(result){
+            setProducts([...result.data])
+        }
+    }
     
-return <div className="cards">
+
+return (<div className="products">
+    <div className="left_menu">
+        <Menu/>
+    </div>
+
+    <div className="cards">
    
-    { productsArr && productsArr.length !== 0 ? productsArr.map((elem,index)=>{
+    {products.length !== 0 ? products.map((elem,index)=>{
         return ( <div className="card" key ={index}>
                     <div className="card__img">
                     <img src={elem.file ? elem.file: Nkar} alt={elem.name + ' ' + elem.lastName} />
@@ -30,6 +53,7 @@ return <div className="cards">
             </div>
             );
     }): <h2 className="nothing">Nothing in here</h2>  }
-</div>
 
+</div>
+</div>)
 }
