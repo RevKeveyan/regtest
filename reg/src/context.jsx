@@ -17,17 +17,18 @@ const AppProvider = ({children}) =>{
     });
     const [products, setProducts] = useState([]);
     const [btn, setBtn] = useState(false);
-    return (<MyContext.Provider value={{
-        profile, setProfile, 
-        products, setProducts,
-        btn, setBtn,
-        }}>
-        {children}
-    </MyContext.Provider>
-    );
+            
+        return (<MyContext.Provider value={{
+                profile, setProfile, 
+                products, setProducts,
+                btn, setBtn,
+            }}>
+                {children}
+                </MyContext.Provider>
+    );      
 }
 
-const useGlobalContext = () => {
-    return useContext(MyContext)
+    const useGlobalContext = () => {
+        return useContext(MyContext)
 }
 export {AppProvider, useGlobalContext}

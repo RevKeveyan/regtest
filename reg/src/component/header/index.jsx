@@ -7,7 +7,8 @@ import { GetUsers } from '../../Platform/api';
 
 export const Header = () =>{
 
-    const {btn, products,setProducts} = useGlobalContext()
+    
+    const {btn, products,setProducts, setBtn} = useGlobalContext()
     const [user, setUser] = useState([products.pop()])
 
     useEffect(()=>{
@@ -18,6 +19,9 @@ export const Header = () =>{
         const result = await GetUsers()
         if(result){
             setUser(result.data.pop())
+            setBtn(true)
+
+            console.log(result.data);
         }
     }
    
@@ -27,7 +31,7 @@ export const Header = () =>{
         <div className="header_img">
         {user && btn? <img src={user.file} alt="Nkar"/>:<img src={Nkar} alt="Nkar"/>}
         </div>
-            {btn && user ? 
+            {user && btn ? 
             <div><h2>{user.firstName} {user.lastName}</h2>
             <p>{user.position}</p></div> :
             <div><h2>Name Surname</h2>

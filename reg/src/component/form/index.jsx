@@ -47,8 +47,7 @@ export const Form = ()=>{
         
     }
 
-    const confirm  = (e) =>{
-        e.preventDefault();
+    const validation  = (e) =>{
         
         let valid = true
         const errors = {
@@ -159,40 +158,35 @@ export const Form = ()=>{
             Users()
             // localStorage.setItem('newProd', JSON.stringify(products));
             
-            setProfile({
-                firstName : '',
-                lastName : '',
-                position : '',
-                email : '',
-                phoneNumber : '',
-                age : '',
-                gender : '',
-                dateOfBirth : '',
-                file : '',
-                btn : false
-            });
+            
             setBtn(true)
-            navigate("/products")
 
         }   
         setError(errors);
 
+        return valid
     }
     
-    const Users = async ()=>{
+    const Users = async (e)=>{
+        e.preventDefault(); 
+
+        if(validation()){
         const result = await PostUsers(profile)
         if(result){
             // console.log("resulr:" ,result.data)
             setProducts([...products, result.data]);
+            navigate("/products")
+
             // localStorage.setItem("id",result.data._id)
         }else{
             console.log("Error")
         }
     }
+    }
 
 // const addProd = ()=>{
-//     confirm()
-//     if(confirm()){
+//     validation()
+//     if(validation()){
 //        setProducts([...products, profile]);
 //        setProfile({
 //         firstName : '',
@@ -220,7 +214,7 @@ const changeFile = (e)=>{
 
 }
     return (<div className="form_section">
-        <form className="form"  >
+        <div className="form"  >
             {inputs.map((elem,index)=>{
                 return <div key ={index} className="form_inputs">
                 <p className={error[elem.name] ? "red" : null}>{error[elem.name] ? error[elem.name] : elem.label}</p>
@@ -247,10 +241,10 @@ const changeFile = (e)=>{
             <input type="file" name="file"  accept="image/*,.png,.jpg,.web," onChange={changeFile} />
             </div>
 
-            <button type="submit" onClick={confirm} className="form_btn">Save Changes</button>
+            <button  onClick={Users} className="form_btn">Save Changes</button>
 
             
-        </form>
+        </div>
         
         </div>
     );
