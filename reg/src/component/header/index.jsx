@@ -6,21 +6,21 @@ import { useEffect, useState } from 'react';
 import { GetUsers } from '../../Platform/api';
 
 export const Header = () =>{
-
     
     const {btn, products,setProducts, setBtn} = useGlobalContext()
     const [user, setUser] = useState([products.pop()])
 
     useEffect(()=>{
-       Get()
+        console.log('loading')
+        
+         Get()
     },[])
  
     const Get = async () =>{
         const result = await GetUsers()
         if(result){
             setUser(result.data.pop())
-            setBtn(true)
-
+            console.log('loaded')
             console.log(result.data);
         }
     }

@@ -1,40 +1,60 @@
 import {useGlobalContext} from "../../context.jsx";
 import { useState } from "react";
 import { GetUsers } from "../../Platform/api/index.js";
+import { GetUser } from "../../Platform/api/index.js";
 import { useEffect } from "react";
 import Nkar from '../../assets/n.jpg'
 import "./style.scss"
 import { Menu } from "../../component/menu/index.jsx";
 export const Products = () =>{
 
-    const {products, setProducts,setUser, user} = useGlobalContext();
+    const {products, setProducts,id,setId } = useGlobalContext();
     
 
     useEffect(()=>{
-       
-        // console.log('products:', products);
-        // if(products.length === 0 && JSON.parse(localStorage.getItem('newProd')))
-        // setProducts([...products, ...JSON.parse(localStorage.getItem('newProd'))])
+        let x = localStorage.getItem("id")
+        if(x){
+            setId(x) // ete ka id 
+            
+        }
+        
+        console.log(id);
         Get()
-    },[setProducts])
+    },[id]) // stex ete chgrenq id sinxron chi lini mi hat usha anelu
+
+
+    const GetAll = async ()=>{
+        // console.log(id)
+       
+        const result = await GetUsers()
+        if(result){
+            
+            setProducts([...result.data]) // amboxj zangvacy qcum enq mejy
+        }
+    }
+ 
 
 
     const Get = async ()=>{
-        // console.log(id)
-        const result = await GetUsers()
+        console.log(id)
+        const result = await GetUser(id)
         if(result){
-            setProducts([...result.data])
+            setProducts([result.data]) // zangvacy mi hat enq darcnum 
+            console.log(products);
+
         }
     }
-    
 
 return (<div className="products">
     <div className="left_menu">
         <Menu/>
     </div>
-
+    <div className="btns">
+   <button onClick={GetAll}>show all</button> {/* kanchum enq funkcian vory sax cuca talu */}
+   <button onClick={Get}>show last person</button> {/* nuyny id-ov */}
+   </div>
     <div className="cards">
-   
+    
     {products.length !== 0 ? products.map((elem,index)=>{
         return ( <div className="card" key ={index}>
                     <div className="card__img">

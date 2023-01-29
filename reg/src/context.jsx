@@ -17,11 +17,13 @@ const AppProvider = ({children}) =>{
     });
     const [products, setProducts] = useState([]);
     const [btn, setBtn] = useState(false);
+    const [id, setId] = useState();
             
         return (<MyContext.Provider value={{
                 profile, setProfile, 
                 products, setProducts,
                 btn, setBtn,
+                id, setId
             }}>
                 {children}
                 </MyContext.Provider>

@@ -164,7 +164,7 @@ export const Form = ()=>{
         }   
         setError(errors);
 
-        return valid
+        return true
     }
     
     const Users = async (e)=>{
@@ -175,9 +175,10 @@ export const Form = ()=>{
         if(result){
             // console.log("resulr:" ,result.data)
             setProducts([...products, result.data]);
+
+            localStorage.setItem("id",result.data._id)
             navigate("/products")
 
-            // localStorage.setItem("id",result.data._id)
         }else{
             console.log("Error")
         }
