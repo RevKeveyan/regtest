@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const Api = 'https://crudcrud.com/api/bc26977056e14844839de72ed4184d89/' // avelacnum enq vejum /(slesh) vor avelacnenq heto inchvor baner
+const Api = 'https://crudcrud.com/api/a33a6b0c9640467f85703bd2c987ec4d/' // avelacnum enq vejum /(slesh) vor avelacnenq heto inchvor baner
 
 export const PostUsers = (data) =>{
    return axios.post(`${Api}users`, data) // 1in arg(URL) 2rd info, 3rd konkert ur

@@ -11,7 +11,6 @@ export const Header = () =>{
     const [user, setUser] = useState([products.pop()])
 
     useEffect(()=>{
-        console.log('loading')
         
          Get()
     },[])
@@ -20,8 +19,6 @@ export const Header = () =>{
         const result = await GetUsers()
         if(result){
             setUser(result.data.pop())
-            console.log('loaded')
-            console.log(result.data);
         }
     }
    
