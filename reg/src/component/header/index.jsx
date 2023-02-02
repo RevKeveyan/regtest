@@ -26,7 +26,7 @@ export const Header = () =>{
     return (
         <div className="header">
         <div className="header_img">
-        {user && btn? <img src={user.file} alt="Nkar"/>:<img src={Nkar} alt="Nkar"/>}
+        {btn && user.file? <img src={user.file} alt="Nkar"/>:<img src={Nkar} alt="Nkar"/>}
         </div>
             {user && btn ? 
             <div><h2>{user.firstName} {user.lastName}</h2>

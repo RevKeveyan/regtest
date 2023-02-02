@@ -2,9 +2,12 @@ import { useState } from "react";
 import './style.scss';
 import {useGlobalContext} from "../../context";
 import {useNavigate} from "react-router";
-import { PostUsers } from "../../Platform/api";
+import { GetUser, PostUsers } from "../../Platform/api";
+import { useEffect } from "react";
 
 export const Form = ()=>{
+
+   
     const navigate = useNavigate()
 
     const [inputs] = useState([
@@ -28,7 +31,7 @@ export const Form = ()=>{
         },
         
 ])
-    const {profile,setProfile, products, setProducts, setBtn} = useGlobalContext();
+    const {profile,setProfile, products, setProducts, setBtn,setId, id} = useGlobalContext();
 
     const [error,setError] = useState({
         firstName : "",
@@ -45,6 +48,28 @@ export const Form = ()=>{
     const change = (e) =>{
         setProfile({...profile, [e.target.name] : e.target.value});
         
+    }
+
+    useEffect(()=>{
+        let x = localStorage.getItem("id")
+        if(x){
+            setId(x) // ete ka id 
+            
+        }
+        
+        console.log(id);
+        Get()
+    },[])
+
+    const Get = async ()=>{
+        
+            const result = await GetUser(localStorage.getItem('id'))
+            console.log("RS",result.data)
+            if(result){
+                setProfile({...profile, ...result.data})
+            }
+        
+      
     }
 
     const validation  = (e) =>{
@@ -174,18 +199,21 @@ export const Form = ()=>{
         const result = await PostUsers(profile)
         if(result){
             // console.log("resulr:" ,result.data)
-            setProducts([...products, result.data]);
-
-            localStorage.setItem("id",result.data._id)
-            navigate("/products")
+            // setProducts({...profile, ...result.data});
+            console.log(result.data)
+            // localStorage.setItem("id",result.data._id)
+            // navigate("/products")
 
         }else{
             console.log("Error")
         }
     }
+
     }
 
-// const addProd = ()=>{
+  
+
+    // const addProd = ()=>{
 //     validation()
 //     if(validation()){
 //        setProducts([...products, profile]);

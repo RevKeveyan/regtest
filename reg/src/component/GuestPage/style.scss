@@ -1,0 +1,42 @@
+.login{
+    max-width: 200px;
+    margin: 0 auto;
+    margin-top: 80px;
+    &_img{
+        max-width: 100px;
+        margin: 0 auto;
+        img{
+            width: 100%;
+
+        }
+    }
+    input{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 5px;
+    }
+    
+    .btns{
+        display: flex;
+        justify-content: space-between;
+        button{
+            background: rgb(81, 149, 252);
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            &:hover{
+            background: rgb(51, 79, 121);
+
+            }
+            &:focus{
+            background: rgb(159, 195, 249);
+
+            }
+        }
+    }
+    .red{
+        color: red;
+    }
+}

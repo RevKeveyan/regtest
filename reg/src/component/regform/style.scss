@@ -1,0 +1,29 @@
+.register{
+    max-width: 260px;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 18px;
+    padding: 20px;
+    padding-top: 80px;
+    input{
+        padding: 10px;
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+    &_btn{
+        margin-top: 50px;
+        margin-left: 70px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: 1px solid black;
+        &:hover{
+            background-color: rgb(85, 195, 245);
+        }
+        &:focus{
+            background-color: rgb(59, 144, 183);
+        }
+    }
+    .red{
+        color: red;
+    }
+}
